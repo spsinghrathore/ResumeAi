@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+/* Metallic text effect */
+.metallic-text {
+  background: linear-gradient(90deg, #aaa, #fff, #aaa);
+  background-size: 200%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: shine 2.5s linear infinite;
+}
+
+@keyframes shine {
+  0% {
+    background-position: 200% center;
+  }
+  100% {
+    background-position: -200% center;
+  }
+}
+
+body {
+    font-family:  "Bricolage Grotesque", sans-serif;
+}
+
