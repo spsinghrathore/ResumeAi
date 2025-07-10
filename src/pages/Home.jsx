@@ -10,26 +10,37 @@ export default function Home() {
   const navigate = useNavigate();
 
   const handleAnalyze = async () => {
-    setLoading(true);
-    try {
-      const res = await fetch("http://localhost:3001/analyze", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          resumeText: extractedText,
-          jobDescription,
-        }),
-      });
+  setLoading(true);
+  try {
+    const res = await fetch("http://localhost:3001/analyze", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        resumeText: extractedText,
+        jobDescription,
+        mock: false,
+      }),
+    });
 
-      const result = await res.json();
-      navigate("/result", { state: { aiResult: result } });
-    } catch (err) {
-      console.error("❌ Error:", err);
-      alert("Analysis failed");
-    } finally {
-      setLoading(false);
+    if (!res.ok) {
+      const errorText = await res.text();
+      console.error("❌ Server returned error:", res.status, errorText);
+      alert("Server error: " + res.status);
+      return;
     }
-  };
+
+    const result = await res.json();
+    console.log("✅ AI Result from backend:", result);
+
+    navigate("/result", { state: { aiResult: result } });
+  } catch (err) {
+    console.error("❌ Fetch error:", err);
+    alert("Analysis failed");
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   const isReady = resumeFile && jobDescription.trim();
 

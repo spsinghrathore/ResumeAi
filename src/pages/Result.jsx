@@ -83,15 +83,17 @@ export default function Result() {
     return () => clearTimeout(timeout);
   }, []);
 
-  if (!result) {
+  if (!result || typeof result !== "object") {
     return (
-      <div className="p-10 text-center">
-        <p className="text-lg text-gray-600">No result found. Please analyze a resume first.</p>
+      <div className="min-h-screen flex flex-col items-center justify-center bg-white px-6 py-16">
+        <h2 className="text-2xl font-semibold text-gray-800 mb-4 text-center">
+          No analysis found. Please upload your resume and try again.
+        </h2>
         <button
           onClick={() => navigate("/")}
-          className="mt-4 px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700"
+          className="px-8 py-4 bg-black text-white rounded-full text-lg font-semibold hover:bg-neutral-800 transition"
         >
-          Go Back
+          🔁 Back to Home
         </button>
       </div>
     );
@@ -100,7 +102,9 @@ export default function Result() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white">
-        <div className="text-black text-2xl font-bold animate-pulse">ResumeAi is preparing your results...</div>
+        <div className="text-black text-2xl font-bold animate-pulse">
+          ResumeAi is preparing your results...
+        </div>
       </div>
     );
   }
@@ -113,12 +117,12 @@ export default function Result() {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
         {/* Match Score */}
-        <AnimatedScoreRing score={result.match_score} />
+        <AnimatedScoreRing score={result.match_score ?? 0} />
 
         {/* Missing Keywords */}
         <div className="bg-white/70 backdrop-blur-md p-6 rounded-2xl shadow-md border border-gray-200">
           <h2 className="text-xl font-semibold text-gray-800 mb-4">Missing Keywords</h2>
-          {result.missing_keywords.length ? (
+          {Array.isArray(result.missing_keywords) && result.missing_keywords.length ? (
             <div className="flex flex-wrap gap-2">
               {result.missing_keywords.map((kw, i) => (
                 <span
@@ -138,17 +142,18 @@ export default function Result() {
         <div className="bg-white/70 backdrop-blur-md p-6 rounded-2xl shadow-md border border-gray-200">
           <h2 className="text-xl font-semibold text-gray-800 mb-4">Suggestions</h2>
           <div className="flex flex-wrap gap-2">
-            {result.suggestions
-              .split(/(?<=\.)\s+/)
-              .filter(Boolean)
-              .map((point, idx) => (
-                <span
-                  key={idx}
-                  className="px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-sm font-medium shadow-sm"
-                >
-                  {point}
-                </span>
-              ))}
+            {typeof result.suggestions === "string" &&
+              result.suggestions
+                .split(/(?<=\.)\s+/)
+                .filter(Boolean)
+                .map((point, idx) => (
+                  <span
+                    key={idx}
+                    className="px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-sm font-medium shadow-sm"
+                  >
+                    {point}
+                  </span>
+                ))}
           </div>
         </div>
       </div>

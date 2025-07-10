@@ -5,7 +5,7 @@ config();
 export async function analyzeResume(req, res) {
   const { resumeText, jobDescription, mock } = req.body;
 
-  // ✅ Optional mock mode for testing without hitting the API
+  // ✅ Mock mode for local testing
   if (process.env.NODE_ENV === "development" && mock) {
     return res.json({
       match_score: 85,
@@ -23,12 +23,21 @@ You are an API. Output ONLY valid JSON. Do NOT include any explanation, prefix, 
 
 Compare the following resume with the job description.
 
+DO NOT infer or expand the job description. ONLY use the exact words and phrases provided.
+
+Instructions:
+- Identify unique keywords or phrases from the job description.
+- Count how many of those keywords appear in the resume text.
+- Calculate match_score as: (matched_keywords / total_keywords) × 100
+- If no keywords are missing and suggestions aren’t needed, return a cheerful suggestion like:
+  "🎉 Your resume perfectly aligns with the job description! You're ready to apply with confidence."
+
 Return ONLY this JSON format:
 
 {
   "match_score": number (0-100),
   "missing_keywords": [array of strings],
-  "suggestions": "short suggestions"
+  "suggestions": "short suggestions or motivation"
 }
 
 Resume:
@@ -46,7 +55,7 @@ ${jobDescription}
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "openrouter/cypher-alpha:free",
+        model: process.env.OPENROUTER_MODEL || "openrouter/cypher-alpha:free",
         messages: [
           { role: "system", content: "You are a helpful assistant that only returns JSON." },
           { role: "user", content: prompt },
@@ -55,17 +64,25 @@ ${jobDescription}
     });
 
     const data = await response.json();
-    const content = data?.choices?.[0]?.message?.content;
+    // console.log("🧾 Full AI response:", data);
 
-    console.log("🔍 Raw AI response content:", content);
+    // ✅ Supports both chat-style and text-style responses
+    const raw = data?.choices?.[0]?.message?.content || data?.choices?.[0]?.text;
+
+    if (!raw) {
+      console.error("❌ AI response content is empty or missing");
+      return res.status(500).json({ error: "Empty response from AI" });
+    }
+
+    console.log("🔍 Raw AI response content:", raw);
 
     let parsed;
     try {
-      const jsonMatch = content?.match(/\{[\s\S]*\}/);
+      const jsonMatch = raw.match(/\{[\s\S]*\}/);
       if (!jsonMatch) throw new Error("No JSON found in AI response");
       parsed = JSON.parse(jsonMatch[0]);
     } catch (err) {
-      console.error("❌ Could not parse AI JSON:", content);
+      console.error("❌ Could not parse AI JSON:", raw);
       return res.status(500).json({ error: "Invalid AI response format" });
     }
 
