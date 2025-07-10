@@ -25,3 +25,5 @@ echo ".env" >> .gitignore
 *.njsproj
 *.sln
 *.sw?
+
+.vercel
