@@ -100,7 +100,7 @@ export default function Home() {
       <button
         onClick={handleAnalyze}
         disabled={!isReady || loading}
-        className={`w-2xl py-4 mt-8 rounded-3xl text-white text-lg font-semibold transition duration-300 ${
+        className={`mt:w-2xl w-50 py-4 mt-8 rounded-3xl text-white text-lg font-semibold transition duration-300 ${
           !isReady || loading
             ? "bg-gray-400 cursor-not-allowed"
             : "bg-black hover:bg-neutral-800"

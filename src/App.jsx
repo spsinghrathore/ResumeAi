@@ -5,7 +5,7 @@ import Navbar from "./assets/components/Navbar";
 import Footer from "./assets/components/Footer";
 
 // Import Analytics from Vercel package
-import { Analytics } from "@vercel/analytics";
+// import { Analytics } from "@vercel/analytics";
 
 export default function App() {
   return (
@@ -18,8 +18,8 @@ export default function App() {
         <Route path="/result" element={<Result />} /> {/* ✅ This now works */}
       </Routes>
       <Footer />
-      {/* Add Analytics here */}
-      <Analytics />
+      {/* Add Analytics here
+      <Analytics /> */}
     </>
   );
 }

@@ -3,13 +3,19 @@ import { Link } from "react-router-dom";
 export default function Navbar() {
   return (
     <nav className="w-full bg-black py-4 px-6 shadow-md flex justify-between items-center z-50 relative">
-      {/* Logo with metallic animation */}
-      <Link to="/" className="text-2xl font-extrabold metallic-text">
-        Resume<span className="text-white">Ai</span>
+      {/* Left: Logo and Title */}
+      <div className="flex items-center space-x-2">
+        <img
+          src="/logo.png"
+          alt="Resume Ai logo"
+          className="w-10 h-10 rounded-xl"
+        />
+        <Link to="/" className="text-2xl font-extrabold metallic-text text-white">
+          Resume<span className="text-white">Ai</span>
         </Link>
+      </div>
 
-
-      {/* Navigation Links */}
+      {/* Right: Navigation Links */}
       <div className="flex space-x-6 text-sm font-semibold">
         <Link
           to="/"
@@ -20,7 +26,7 @@ export default function Navbar() {
         <span className="text-gray-500 cursor-not-allowed">About</span>
       </div>
 
-      {/* Custom animation styles */}
+      {/* Optional metallic text animation */}
       <style>{`
         @keyframes metallic {
           0% {
@@ -30,7 +36,11 @@ export default function Navbar() {
             background-position: -200% center;
           }
         }
-        .animate-metallic {
+        .metallic-text {
+          background: linear-gradient(90deg, #ccc, #fff, #ccc);
+          background-size: 400%;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
           animation: metallic 3s linear infinite;
         }
       `}</style>
