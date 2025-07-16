@@ -27,3 +27,5 @@ echo ".env" >> .gitignore
 *.sw?
 
 .vercel
+
+.vercel
