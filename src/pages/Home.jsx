@@ -62,13 +62,16 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col items-center px-6 py-16">
       <motion.h1
-        initial={{ opacity: 0, y: 40, filter: "blur(8px)" }}
-        animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-        transition={{ duration: 1, ease: "easeOut" }}
-        className="md:mt-9 mt-0 text-3xl mb-5 max-w-6xl text-center md:text-7xl font-extrabold text-gray-900"
-      >
-        Your Resume. Reimagined by AI.
-      </motion.h1>
+  initial={{ opacity: 0, y: 40, filter: "blur(8px)" }}
+  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+  transition={{ duration: 1, ease: "easeOut" }}
+  className="md:mt-9 mt-0 text-3xl mb-5 max-w-6xl text-center md:text-7xl font-extrabold text-black"
+>
+  Your Resume. Reimagined by{" "}
+  <span className="bg-gradient-to-r from-[#121953] to-[#1532b4] bg-clip-text text-transparent">
+    AI.
+  </span>
+</motion.h1>
 
       <motion.p
         initial={{ opacity: 0, y: 20 }}
