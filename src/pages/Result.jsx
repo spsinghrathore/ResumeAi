@@ -1,5 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import Button from "../assets/components/Button";
 
 function AnimatedScoreRing({ score }) {
   const [progress, setProgress] = useState(0);
@@ -103,7 +104,12 @@ export default function Result() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white">
         <div className="text-black text-2xl font-bold animate-pulse">
-          ResumeAi is preparing your results...
+          ResumeAi is preparing your results
+        </div>
+          <div class="flex flex-row gap-2">
+          <div class="w-4 h-4 rounded-full bg-blue-700 animate-bounce"></div>
+          <div class="w-4 h-4 rounded-full bg-blue-700 animate-bounce [animation-delay:-.3s]"></div>
+          <div class="w-4 h-4 rounded-full bg-blue-700 animate-bounce [animation-delay:-.5s]"></div>
         </div>
       </div>
     );
@@ -112,7 +118,7 @@ export default function Result() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-100 via-white to-gray-200 px-6 py-16">
       <h1 className="text-5xl font-bold text-center text-gray-900 mb-12 animate-fade-in-down">
-        🎯 Your Resume Analysis
+        ── .✦ Your Resume Analysis
       </h1>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
@@ -159,12 +165,11 @@ export default function Result() {
       </div>
 
       <div className="flex justify-center mt-12">
-        <button
+        <Button
           onClick={() => navigate("/")}
-          className="px-8 py-4 bg-black text-white rounded-full text-lg font-semibold hover:bg-neutral-800 transition"
         >
-          🔁 Analyze Another Resume
-        </button>
+         Analyze Another 
+        </Button>
       </div>
     </div>
   );

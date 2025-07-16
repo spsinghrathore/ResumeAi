@@ -12,11 +12,11 @@ export default function App() {
   return (
     <>
        
-           <Navbar /> 
+      <Navbar /> 
       <Routes>
        
-        <Route path="/" element={<Home />} />
-        <Route path="/result" element={<Result />} /> {/* ✅ This now works */}
+      <Route path="/" element={<Home />} />
+      <Route path="/result" element={<Result />} /> {/* ✅ This now works */}
       </Routes>
        <FloatingLink />
       <Footer />

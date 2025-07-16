@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import ExtractPdfText from "../assets/components/ExtractPdfText";
 import { motion } from "framer-motion";
+import confetti from "canvas-confetti";
+import Button from "../assets/components/Button";
 
 export default function Home() {
   const [resumeFile, setResumeFile] = useState(null);
@@ -10,20 +12,6 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  // Typing animation state
-  const fullText = "Match job descriptions. Uncover missing keywords. Land interviews faster.";
-  const [displayedText, setDisplayedText] = useState("");
-
-  useEffect(() => {
-    let index = 0;
-    const interval = setInterval(() => {
-      setDisplayedText(fullText.slice(0, index + 1));
-      index++;
-      if (index === fullText.length) clearInterval(interval);
-    }, 40); // typing speed in ms
-
-    return () => clearInterval(interval);
-  }, []);
 
   const handleAnalyze = async () => {
     setLoading(true);
@@ -36,6 +24,12 @@ export default function Home() {
           jobDescription,
           mock: false,
         }),
+      });
+          // Simple confetti burst:
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 },
       });
 
       if (!res.ok) {
@@ -60,18 +54,18 @@ export default function Home() {
   const isReady = resumeFile && jobDescription.trim();
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col items-center px-6 py-16">
+    <div className="min-h-screen  bg-gray-50 flex flex-col items-center px-6 py-16">
       <motion.h1
-  initial={{ opacity: 0, y: 40, filter: "blur(8px)" }}
-  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-  transition={{ duration: 1, ease: "easeOut" }}
-  className="md:mt-9 mt-0 text-3xl mb-5 max-w-6xl text-center md:text-7xl font-extrabold text-black"
->
-  Your Resume. Reimagined by{" "}
-  <span className="bg-gradient-to-r from-[#121953] to-[#1532b4] bg-clip-text text-transparent">
-    AI.
-  </span>
-</motion.h1>
+        initial={{ opacity: 0, y: 40, filter: "blur(8px)" }}
+        animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+        transition={{ duration: 1, ease: "easeOut" }}
+        className="md:mt-9 mt-0 text-3xl mb-5 max-w-6xl text-center md:text-7xl font-extrabold text-black"
+      >
+        Your Resume. Reimagined by{" "}
+        <span className="bg-gradient-to-r from-[#121953] to-[#1532b4] bg-clip-text text-transparent">
+          AI.
+        </span>
+      </motion.h1>
 
       <motion.p
         initial={{ opacity: 0, y: 20 }}
@@ -79,14 +73,7 @@ export default function Home() {
         transition={{ duration: 1, delay: 0.4, ease: "easeOut" }}
         className="md:mb-9 max-w-7xl text-sm text-center md:text-2xl font-light text-gray-900"
       >
-        {displayedText}
-        <motion.span
-          animate={{ opacity: [0, 1, 0] }}
-          transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
-          className="inline-block"
-        >
-          |
-        </motion.span>
+          Match job descriptions. Uncover missing keywords. Land interviews faster.
       </motion.p>
 
       <div className="flex flex-col md:flex-row gap-10 max-w-5xl w-full">
@@ -135,21 +122,21 @@ export default function Home() {
 
       <ExtractPdfText file={resumeFile} onExtractedText={setExtractedText} />
 
-      <button
+      <Button
         onClick={handleAnalyze}
         disabled={!isReady || loading}
-        className={`mt:w-2xl w-50 py-4 mt-8 rounded-3xl text-white text-lg font-semibold transition duration-300 ${
+        className={`mt:w-2xl w-50 py-4 mt-8  ${
           !isReady || loading
-            ? "bg-gray-400 cursor-not-allowed"
-            : "bg-black hover:bg-neutral-800"
         }`}
       >
         {loading ? "Analyzing..." : "Analyze Resume"}
-      </button>
+      </Button>
 
       {loading && (
-        <div className="mt-6 flex justify-center">
-          <div className="text-black text-xl font-bold animate-pulse">ResumeAi is thinking...</div>
+          <div class="flex flex-row gap-2">
+          <div class="w-4 h-4 rounded-full bg-blue-700 animate-bounce"></div>
+          <div class="w-4 h-4 rounded-full bg-blue-700 animate-bounce [animation-delay:-.3s]"></div>
+          <div class="w-4 h-4 rounded-full bg-blue-700 animate-bounce [animation-delay:-.5s]"></div>
         </div>
       )}
     </div>
