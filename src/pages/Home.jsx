@@ -54,7 +54,7 @@ export default function Home() {
   const isReady = resumeFile && jobDescription.trim();
 
   return (
-    <div className="min-h-screen  bg-gray-50 flex flex-col items-center px-6 py-16">
+    <div className="min-h-screen container bg-gray-50 flex flex-col items-center px-6 py-16">
       <motion.h1
         initial={{ opacity: 0, y: 40, filter: "blur(8px)" }}
         animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
@@ -133,10 +133,10 @@ export default function Home() {
       </Button>
 
       {loading && (
-          <div class="flex flex-row gap-2">
-          <div class="w-4 h-4 rounded-full bg-blue-700 animate-bounce"></div>
-          <div class="w-4 h-4 rounded-full bg-blue-700 animate-bounce [animation-delay:-.3s]"></div>
-          <div class="w-4 h-4 rounded-full bg-blue-700 animate-bounce [animation-delay:-.5s]"></div>
+          <div className="flex flex-row gap-2">
+          <div className="w-4 h-4 rounded-full bg-blue-700 animate-bounce"></div>
+          <div className="w-4 h-4 rounded-full bg-blue-700 animate-bounce [animation-delay:-.3s]"></div>
+          <div className="w-4 h-4 rounded-full bg-blue-700 animate-bounce [animation-delay:-.5s]"></div>
         </div>
       )}
     </div>
