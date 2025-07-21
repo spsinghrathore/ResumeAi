@@ -24,6 +24,20 @@ body {
     font-family:  "Bricolage Grotesque", sans-serif;
 }
 
+@keyframes slide {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+.animate-slide {
+  animation: slide 3s linear forwards;
+}
+
+
 .container {
   width: 100%;
   height: 100%;

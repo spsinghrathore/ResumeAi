@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ExtractPdfText from "../assets/components/ExtractPdfText";
 import { motion } from "framer-motion";
@@ -10,11 +10,15 @@ export default function Home() {
   const [jobDescription, setJobDescription] = useState("");
   const [extractedText, setExtractedText] = useState("");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [showError, setShowError] = useState(false);
   const navigate = useNavigate();
-
 
   const handleAnalyze = async () => {
     setLoading(true);
+    setError(null);
+    setShowError(false);
+
     try {
       const res = await fetch("/api/analyze", {
         method: "POST",
@@ -25,27 +29,31 @@ export default function Home() {
           mock: false,
         }),
       });
-          // Simple confetti burst:
-      confetti({
-        particleCount: 100,
-        spread: 70,
-        origin: { y: 0.6 },
-      });
 
       if (!res.ok) {
-        const errorText = await res.text();
-        console.error("❌ Server returned error:", res.status, errorText);
-        alert("Server error: " + res.status);
+        const errorJson = await res.json();
+        console.error("❌ Server returned error:", res.status, errorJson);
+        setError(errorJson.suggestion || errorJson.error || "Something went wrong.");
+        setShowError(true);
+        setTimeout(() => setShowError(false), 5000); // Auto-hide after 5s
         return;
       }
 
       const result = await res.json();
       console.log("✅ AI Result from backend:", result);
 
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 },
+      });
+
       navigate("/result", { state: { aiResult: result } });
     } catch (err) {
       console.error("❌ Fetch error:", err);
-      alert("Analysis failed");
+      setError("Server is busy or offline. Try again later.");
+      setShowError(true);
+      setTimeout(() => setShowError(false), 5000); // Auto-hide after 5s
     } finally {
       setLoading(false);
     }
@@ -73,7 +81,7 @@ export default function Home() {
         transition={{ duration: 1, delay: 0.4, ease: "easeOut" }}
         className="md:mb-9 max-w-7xl text-sm text-center md:text-2xl font-light text-gray-900"
       >
-          Match job descriptions. Uncover missing keywords. Land interviews faster.
+        Match job descriptions. Uncover missing keywords. Land interviews faster.
       </motion.p>
 
       <div className="flex flex-col md:flex-row gap-10 max-w-5xl w-full">
@@ -120,25 +128,42 @@ export default function Home() {
         </div>
       </div>
 
+      {/* Text Extractor */}
       <ExtractPdfText file={resumeFile} onExtractedText={setExtractedText} />
 
+      {/* Analyze Button */}
       <Button
         onClick={handleAnalyze}
         disabled={!isReady || loading}
-        className={`mt:w-2xl w-50 py-4 mt-8  ${
-          !isReady || loading
-        }`}
+        className={`mt:w-2xl w-50 py-4 mt-8 ${!isReady || loading}`}
       >
         {loading ? "Analyzing..." : "Analyze Resume"}
       </Button>
 
+      {/* Loader */}
       {loading && (
-          <div className="flex flex-row gap-2">
-            
+        <div className="flex flex-row gap-2 mt-4">
           <div className="w-4 h-4 rounded-full bg-blue-700 animate-bounce"></div>
           <div className="w-4 h-4 rounded-full bg-blue-700 animate-bounce [animation-delay:-.3s]"></div>
           <div className="w-4 h-4 rounded-full bg-blue-700 animate-bounce [animation-delay:-.5s]"></div>
         </div>
+      )}
+
+      {/* Floating Toast-style Error */}
+      {showError && (
+        <motion.div
+          initial={{ y: 50, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: 50, opacity: 0 }}
+          className="fixed bottom-6 left-1/2 transform -translate-x-1/2 bg-red-100 border border-red-300 text-red-800 shadow-md rounded-xl px-5 py-3 w-[90%] md:w-auto max-w-xl z-50"
+        >
+          <div className="flex items-center justify-between gap-4">
+            <span className="text-sm">{error}</span>
+          </div>
+          <div className="mt-2 h-1 bg-red-300 rounded">
+            <div className="h-full bg-red-600 animate-slide w-full rounded" />
+          </div>
+        </motion.div>
       )}
     </div>
   );
