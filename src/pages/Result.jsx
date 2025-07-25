@@ -94,7 +94,7 @@ export default function Result() {
           onClick={() => navigate("/")}
           className="px-8 py-4 bg-black text-white rounded-full text-lg font-semibold hover:bg-neutral-800 transition"
         >
-          🔁 Back to Home
+           Back to Home
         </button>
       </div>
     );
