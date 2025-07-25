@@ -25,7 +25,7 @@ export default function ExtractPdfText({ file, onExtractedText }) {
             fullText += strings + "\n";
           }
 
-          console.log("✅ Extracted PDF text:", fullText);
+          // console.log("✅ Extracted PDF text:", fullText);
           onExtractedText(fullText);
         };
 
