@@ -7,12 +7,8 @@ export default function Footer() {
 
         {/* Legal Links */}
         <div className="flex flex-wrap justify-center gap-4 text-xs">
-          <a href="#" className="hover:text-white transition">Privacy Policy</a>
-          <a href="#" className="hover:text-white transition">Terms of Use</a>
-          {/* <a href="#" className="hover:text-white transition">Support</a>
-          <a href="#" className="hover:text-white transition">Careers</a> */}
-          
-          <a href="#" className="hover:text-white transition">Contact</a>
+          <a href="/privacy" className="hover:text-white transition">Privacy Policy</a>          
+          <a href="/contact" className="hover:text-white transition">Contact</a>
         </div>
 
         {/* Copyright */}

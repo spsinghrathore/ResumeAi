@@ -4,6 +4,8 @@ import Result from "./pages/Result"; // ✅ Make sure this is uncommented
 import Navbar from "./assets/components/Navbar";
 import Footer from "./assets/components/Footer";
 import FloatingLink from "./assets/components/FloatingLink";
+import Privacy from "./pages/Privacy";
+import Contact from "./pages/Contact";
 
 // Import Analytics from Vercel package
 // import { Analytics } from "@vercel/analytics";
@@ -16,7 +18,9 @@ export default function App() {
       <Routes>
        
       <Route path="/" element={<Home />} />
-      <Route path="/result" element={<Result />} /> {/* ✅ This now works */}
+      <Route path="/result" element={<Result />} />
+      <Route path="/privacy" element={<Privacy />} />
+      <Route path="/contact" element={<Contact />} />
       </Routes>
        <FloatingLink />
       <Footer />
