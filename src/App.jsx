@@ -6,6 +6,7 @@ import Footer from "./assets/components/Footer";
 import FloatingLink from "./assets/components/FloatingLink";
 import Privacy from "./pages/Privacy";
 import Contact from "./pages/Contact";
+import { Analytics } from '@vercel/analytics/react';
 
 // Import Analytics from Vercel package
 // import { Analytics } from "@vercel/analytics";
@@ -24,8 +25,7 @@ export default function App() {
       </Routes>
        <FloatingLink />
       <Footer />
-      {/* Add Analytics here
-      <Analytics /> */}
+       <Analytics />
     </>
   );
 }
