@@ -98,7 +98,7 @@ export default function Home() {
             className="hidden"
           />
           <div className="flex flex-col items-center space-y-4">
-            <div className="text-indigo-600 text-6xl">📄</div>
+            <div className="text-indigo-600 text-6xl"><img src="upload.png" className="w-15 h-auto max-w-md"></img> </div>
             <h2 className="text-xl font-semibold text-gray-900">
               Upload Your Resume
             </h2>

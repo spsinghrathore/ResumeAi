@@ -23,7 +23,7 @@ export default function Navbar() {
         >
           Home
         </Link>
-        <span className="text-gray-500 cursor-not-allowed">About</span>
+        {/* <span className="text-gray-500 cursor-not-allowed">About</span> */}
       </div>
 
       {/* Optional metallic text animation */}
