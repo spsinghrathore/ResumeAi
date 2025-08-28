@@ -47,6 +47,7 @@ export default function Home() {
         spread: 70,
         origin: { y: 0.6 },
       });
+      
 
       navigate("/result", { state: { aiResult: result } });
     } catch (err) {
